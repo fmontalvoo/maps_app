@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:maps_app/src/bloc/ubication/ubication_bloc.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:maps_app/src/bloc/ubication/ubication_bloc.dart';
 
 class MapPage extends StatefulWidget {
   @override
@@ -12,20 +12,29 @@ class MapPage extends StatefulWidget {
 class _MapPageState extends State<MapPage> {
   @override
   void initState() {
-    context.bloc<UbcationBloc>().initTracing();
+    context.read<UbcationBloc>().initTracing();
     super.initState();
   }
 
   @override
   void dispose() {
-    context.bloc<UbcationBloc>().stopTracing();
+    context.read<UbcationBloc>().stopTracing();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(child: Text('Map Page')),
+      body: BlocBuilder<UbcationBloc, UbicationState>(
+        builder: (BuildContext context, state) => createMap(state),
+      ),
     );
+  }
+
+  Widget createMap(UbicationState state) {
+    if (!state.existLastUbication) return Center(child: Text("Localizando"));
+
+    return Center(
+        child: Text("${state.latLng.latitude} ${state.latLng.longitude}"));
   }
 }

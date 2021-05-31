@@ -19,7 +19,7 @@ class UbcationBloc extends Bloc<UbicationEvent, UbicationState> {
     _positionSubscription = Geolocator.getPositionStream(
             desiredAccuracy: LocationAccuracy.high, distanceFilter: 10)
         .listen((Position position) {
-      print(position);
+      add(OnUbicationChange(new LatLng(position.latitude, position.longitude)));
     });
   }
 
@@ -28,5 +28,8 @@ class UbcationBloc extends Bloc<UbicationEvent, UbicationState> {
   }
 
   @override
-  Stream<UbicationState> mapEventToState(UbicationEvent event) async* {}
+  Stream<UbicationState> mapEventToState(UbicationEvent event) async* {
+    if (event is OnUbicationChange)
+      yield state.copyWith(existLastUbication: true, latLng: event.latLng);
+  }
 }
