@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:maps_app/src/bloc/map/map_bloc.dart';
 
 import 'package:maps_app/src/bloc/ubication/ubication_bloc.dart';
 
@@ -35,6 +36,8 @@ class _MapPageState extends State<MapPage> {
   Widget createMap(UbicationState state) {
     if (!state.existLastUbication) return Center(child: Text("Localizando"));
 
+    final mapBloc = context.watch<MapBloc>();
+
     final initialCameraPosition =
         CameraPosition(target: state.latLng, zoom: 14);
 
@@ -42,6 +45,7 @@ class _MapPageState extends State<MapPage> {
       initialCameraPosition: initialCameraPosition,
       mapType: MapType.hybrid,
       myLocationEnabled: true,
+      onMapCreated: mapBloc.initMap,
     );
   }
 }
