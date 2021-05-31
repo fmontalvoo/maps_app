@@ -9,6 +9,8 @@ class GPSAccessPage extends StatefulWidget {
 
 class _GPSAccessPageState extends State<GPSAccessPage>
     with WidgetsBindingObserver {
+  bool popup = false;
+
   @override
   void initState() {
     WidgetsBinding.instance.addObserver(this);
@@ -23,7 +25,7 @@ class _GPSAccessPageState extends State<GPSAccessPage>
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
-    if (state == AppLifecycleState.resumed) if (await Permission
+    if (state == AppLifecycleState.resumed && !popup) if (await Permission
         .location.isGranted) Navigator.pushReplacementNamed(context, 'loading');
     // super.didChangeAppLifecycleState(state);
   }
@@ -45,8 +47,10 @@ class _GPSAccessPageState extends State<GPSAccessPage>
                   style: TextStyle(color: Colors.white),
                 ),
                 onPressed: () async {
+                  popup = true;
                   final status = await Permission.location.request();
-                  locationPermissions(status);
+                  await locationPermissions(status);
+                  popup = false;
                 }),
           ],
         ),
@@ -54,10 +58,10 @@ class _GPSAccessPageState extends State<GPSAccessPage>
     );
   }
 
-  void locationPermissions(PermissionStatus status) {
+  Future locationPermissions(PermissionStatus status) async {
     switch (status) {
       case PermissionStatus.granted:
-        Navigator.pushReplacementNamed(context, 'map');
+        await Navigator.pushReplacementNamed(context, 'loading');
         break;
       case PermissionStatus.limited:
         break;
