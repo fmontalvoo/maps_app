@@ -43,7 +43,6 @@ class _MapPageState extends State<MapPage> {
 
     return GoogleMap(
       initialCameraPosition: initialCameraPosition,
-      mapType: MapType.hybrid,
       myLocationEnabled: true,
       onMapCreated: mapBloc.initMap,
     );

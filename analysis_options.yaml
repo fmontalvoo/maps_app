@@ -1,0 +1,4 @@
+#Remueve el warning del linter
+linter:
+  rules:
+    close_sink: false
