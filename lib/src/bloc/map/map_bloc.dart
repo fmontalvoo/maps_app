@@ -42,6 +42,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     if (event is OnLatLngUpdated) yield* _onLatLngUpdated(event);
     if (event is OnDrawPath) yield* _onDrawPath(event);
     if (event is OnFollowLocation) yield* _onFollowLocation(event);
+    if (event is OnMapMove) yield state.copyWith(mapCenter: event.mapCenter);
   }
 
   Stream<MapState> _onLatLngUpdated(OnLatLngUpdated event) async* {

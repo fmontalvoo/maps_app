@@ -11,6 +11,12 @@ class OnLatLngUpdated extends MapEvent {
   OnLatLngUpdated(this.latLng);
 }
 
+class OnMapMove extends MapEvent {
+  final LatLng mapCenter;
+
+  OnMapMove(this.mapCenter);
+}
+
 class OnDrawPath extends MapEvent {}
 
 class OnFollowLocation extends MapEvent {}
