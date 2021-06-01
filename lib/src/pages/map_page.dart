@@ -46,14 +46,18 @@ class _MapPageState extends State<MapPage> {
 
     final mapBloc = context.watch<MapBloc>();
 
+    mapBloc.add(OnLatLngUpdated(state.latLng));
+
     final initialCameraPosition =
         CameraPosition(target: state.latLng, zoom: 14);
 
     return GoogleMap(
       initialCameraPosition: initialCameraPosition,
       myLocationEnabled: true,
+      myLocationButtonEnabled: false,
       zoomControlsEnabled: false,
       onMapCreated: mapBloc.initMap,
+      polylines: mapBloc.state.polylines.values.toSet(),
     );
   }
 }
