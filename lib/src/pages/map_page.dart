@@ -37,6 +37,7 @@ class _MapPageState extends State<MapPage> {
         children: [
           UbicationButton(),
           RouteButton(),
+          FollowButton(),
         ],
       ),
     );

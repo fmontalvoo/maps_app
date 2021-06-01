@@ -12,3 +12,5 @@ class OnLatLngUpdated extends MapEvent {
 }
 
 class OnDrawPath extends MapEvent {}
+
+class OnFollowLocation extends MapEvent {}
