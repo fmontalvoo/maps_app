@@ -10,3 +10,5 @@ class OnLatLngUpdated extends MapEvent {
 
   OnLatLngUpdated(this.latLng);
 }
+
+class OnDrawPath extends MapEvent {}

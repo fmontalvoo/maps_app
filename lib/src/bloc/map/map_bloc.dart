@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:meta/meta.dart';
 
+import 'package:flutter/material.dart' show Colors;
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -16,8 +18,9 @@ class MapBloc extends Bloc<MapEvent, MapState> {
   GoogleMapController _googleMapController;
 
   Polyline _myRoute = new Polyline(
-    polylineId: PolylineId('my_route'),
     width: 4,
+    color: Colors.black87,
+    polylineId: PolylineId('my_route'),
   );
 
   void initMap(GoogleMapController controller) {
@@ -36,14 +39,30 @@ class MapBloc extends Bloc<MapEvent, MapState> {
   @override
   Stream<MapState> mapEventToState(MapEvent event) async* {
     if (event is OnMapLoaded) yield state.copyWith(mapReady: true);
-    if (event is OnLatLngUpdated) {
-      List<LatLng> points = [...this._myRoute.points, event.latLng];
-      this._myRoute = this._myRoute.copyWith(pointsParam: points);
+    if (event is OnLatLngUpdated) yield* _onLatLngUpdated(event);
+    if (event is OnDrawPath) yield* _onDrawPath(event);
+  }
 
-      final currentPolylines = state.polylines;
-      currentPolylines['my_route'] = this._myRoute;
+  Stream<MapState> _onLatLngUpdated(OnLatLngUpdated event) async* {
+    List<LatLng> points = [...this._myRoute.points, event.latLng];
+    this._myRoute = this._myRoute.copyWith(pointsParam: points);
 
-      yield state.copyWith(polylines: currentPolylines);
-    }
+    final currentPolylines = state.polylines;
+    currentPolylines['my_route'] = this._myRoute;
+
+    yield state.copyWith(polylines: currentPolylines);
+  }
+
+  Stream<MapState> _onDrawPath(OnDrawPath event) async* {
+    if (!state.drawPath)
+      this._myRoute = this._myRoute.copyWith(colorParam: Colors.black87);
+    else
+      this._myRoute = this._myRoute.copyWith(colorParam: Colors.transparent);
+
+    final currentPolylines = state.polylines;
+    currentPolylines['my_route'] = this._myRoute;
+
+    yield state.copyWith(
+        drawPath: !state.drawPath, polylines: currentPolylines);
   }
 }

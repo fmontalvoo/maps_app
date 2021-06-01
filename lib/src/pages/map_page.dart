@@ -36,6 +36,7 @@ class _MapPageState extends State<MapPage> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           UbicationButton(),
+          RouteButton(),
         ],
       ),
     );
