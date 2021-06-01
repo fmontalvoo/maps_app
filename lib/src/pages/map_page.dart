@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:maps_app/src/bloc/map/map_bloc.dart';
 
+import 'package:maps_app/src/bloc/map/map_bloc.dart';
 import 'package:maps_app/src/bloc/ubication/ubication_bloc.dart';
+
+import 'package:maps_app/src/widgets/widgets.dart';
 
 class MapPage extends StatefulWidget {
   @override
@@ -30,6 +32,12 @@ class _MapPageState extends State<MapPage> {
       body: BlocBuilder<UbcationBloc, UbicationState>(
         builder: (BuildContext context, state) => createMap(state),
       ),
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          UbicationButton(),
+        ],
+      ),
     );
   }
 
@@ -44,6 +52,7 @@ class _MapPageState extends State<MapPage> {
     return GoogleMap(
       initialCameraPosition: initialCameraPosition,
       myLocationEnabled: true,
+      zoomControlsEnabled: false,
       onMapCreated: mapBloc.initMap,
     );
   }

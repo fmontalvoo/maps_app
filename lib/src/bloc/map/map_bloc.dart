@@ -23,6 +23,11 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     }
   }
 
+  void moveCamera(LatLng latLng) {
+    final cameraUpdate = CameraUpdate.newLatLng(latLng);
+    this._googleMapController?.animateCamera(cameraUpdate);
+  }
+
   @override
   Stream<MapState> mapEventToState(MapEvent event) async* {
     if (event is OnMapLoaded) yield state.copyWith(mapReady: true);
