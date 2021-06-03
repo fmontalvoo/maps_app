@@ -1,14 +1,30 @@
 import 'package:flutter/material.dart';
 
-class SearchLocation extends SearchDelegate {
+import 'package:maps_app/src/models/result_search.dart';
+
+class SearchLocation extends SearchDelegate<ResultSearch> {
+  @override
+  final String searchFieldLabel;
+
+  SearchLocation() : this.searchFieldLabel = 'Buscar';
+
   @override
   List<Widget> buildActions(BuildContext context) {
-    return [Text('buildActions')];
+    return [
+      IconButton(
+        icon: Icon(Icons.clear),
+        onPressed: () {
+          query = '';
+        },
+      ),
+    ];
   }
 
   @override
   Widget buildLeading(BuildContext context) {
-    return Text('buildLeading');
+    return BackButton(
+      onPressed: () => this.close(context, ResultSearch(canceled: true)),
+    );
   }
 
   @override
@@ -18,6 +34,16 @@ class SearchLocation extends SearchDelegate {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    return Text('buildSuggestions');
+    return ListView(
+      children: [
+        ListTile(
+          leading: Icon(Icons.location_on),
+          title: Text('Ubicación'),
+          onTap: () {
+            this.close(context, ResultSearch(canceled: false, manual: true));
+          },
+        )
+      ],
+    );
   }
 }

@@ -11,19 +11,15 @@ class FollowButton extends StatelessWidget {
   }
 
   Widget btnFollow(BuildContext context, MapState state) {
-    return Container(
-      margin: EdgeInsets.only(bottom: 10.0),
-      child: CircleAvatar(
-        backgroundColor: Colors.white,
-        maxRadius: 25.0,
-        child: IconButton(
-          icon: Icon(state.followLocation ? Icons.navigation : Icons.directions,
-              color: Colors.black87),
-          onPressed: () {
-            context.read<MapBloc>().add(OnFollowLocation());
-          },
-        ),
-      ),
+    return MaterialButton(
+      padding: EdgeInsets.all(12.0),
+      color: Colors.white,
+      shape: CircleBorder(),
+      child: Icon(state.followLocation ? Icons.navigation : Icons.directions,
+          color: Colors.black87),
+      onPressed: () {
+        context.read<MapBloc>().add(OnFollowLocation());
+      },
     );
   }
 }

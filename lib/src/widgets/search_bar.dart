@@ -31,11 +31,16 @@ class SearchBar extends StatelessWidget {
                   hintText: '¿Donde quieres ir?'),
             ),
           ),
-          onTap: () {
-            showSearch(context: context, delegate: SearchLocation());
+          onTap: () async {
+            returnResult(
+                await showSearch(context: context, delegate: SearchLocation()));
           },
         ),
       ),
     );
+  }
+
+  void returnResult(ResultSearch result) {
+    if (result.canceled) return;
   }
 }

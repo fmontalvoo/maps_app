@@ -34,7 +34,8 @@ class _MapPageState extends State<MapPage> {
           BlocBuilder<UbcationBloc, UbicationState>(
             builder: (BuildContext context, state) => createMap(state),
           ),
-          Positioned(top: 15.0, child: SearchBar()),
+          // Positioned(top: 15.0, child: SearchBar()),
+          MarkerIndicator()
         ],
       ),
       floatingActionButton: Column(

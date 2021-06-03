@@ -7,17 +7,15 @@ class RouteButton extends StatelessWidget {
     // final ubicationBloc = context.watch<UbcationBloc>();
 
     return Container(
-      margin: EdgeInsets.only(bottom: 10.0),
-      child: CircleAvatar(
-        backgroundColor: Colors.white,
-        maxRadius: 25.0,
-        child: IconButton(
-          icon: Icon(Icons.alt_route, color: Colors.black87),
+      margin: EdgeInsets.symmetric(vertical: 7.0),
+      child: MaterialButton(
+          padding: EdgeInsets.all(12.0),
+          color: Colors.white,
+          shape: CircleBorder(),
+          child: Icon(Icons.alt_route, color: Colors.black87),
           onPressed: () {
             mapBloc.add(OnDrawPath());
-          },
-        ),
-      ),
+          }),
     );
   }
 }
