@@ -3,6 +3,12 @@ part of 'widgets.dart';
 class SearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    return BlocBuilder<SearchBloc, SearchState>(
+        builder: (context, state) =>
+            state.manualSelection ? Container() : _searchBar(context));
+  }
+
+  Widget _searchBar(BuildContext context) {
     return SafeArea(
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20.0),
@@ -32,7 +38,7 @@ class SearchBar extends StatelessWidget {
             ),
           ),
           onTap: () async {
-            returnResult(
+            returnResult(context,
                 await showSearch(context: context, delegate: SearchLocation()));
           },
         ),
@@ -40,7 +46,9 @@ class SearchBar extends StatelessWidget {
     );
   }
 
-  void returnResult(ResultSearch result) {
+  void returnResult(BuildContext context, ResultSearch result) {
     if (result.canceled) return;
+
+    if (result.manual) context.read<SearchBloc>().add(OnActivateMarker());
   }
 }

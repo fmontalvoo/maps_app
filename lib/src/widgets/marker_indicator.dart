@@ -3,7 +3,19 @@ part of 'widgets.dart';
 class MarkerIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    return BlocBuilder<SearchBloc, SearchState>(builder: (context, state) {
+      if (state.manualSelection) return _MarkerIndicator();
+
+      return SizedBox.shrink();
+    });
+  }
+}
+
+class _MarkerIndicator extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final searchBloc = context.watch<SearchBloc>();
 
     return Stack(
       children: [
@@ -14,7 +26,9 @@ class MarkerIndicator extends StatelessWidget {
             color: Colors.white,
             shape: CircleBorder(),
             child: BackButtonIcon(),
-            onPressed: () {},
+            onPressed: () {
+              searchBloc.add(OnDeactivateMarker());
+            },
           ),
         ),
         Center(
