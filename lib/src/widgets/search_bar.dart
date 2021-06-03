@@ -4,8 +4,9 @@ class SearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SearchBloc, SearchState>(
-        builder: (context, state) =>
-            state.manualSelection ? Container() : _searchBar(context));
+        builder: (context, state) => state.manualSelection
+            ? Container()
+            : FadeInDown(child: _searchBar(context)));
   }
 
   Widget _searchBar(BuildContext context) {

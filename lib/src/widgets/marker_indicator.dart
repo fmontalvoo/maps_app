@@ -32,20 +32,27 @@ class _MarkerIndicator extends StatelessWidget {
           ),
         ),
         Center(
-            child: Transform.translate(
-                offset: Offset(0, -15),
-                child: Icon(Icons.location_on, size: 32.0))),
+          child: Transform.translate(
+            offset: Offset(0, -15),
+            child: BounceInDown(
+              from: 250.0,
+              child: Icon(Icons.location_on, size: 32.0),
+            ),
+          ),
+        ),
         Container(
           margin: EdgeInsets.only(bottom: 50.0),
           child: Align(
             alignment: Alignment.bottomCenter,
-            child: MaterialButton(
-              minWidth: size.width - 220,
-              color: Colors.black,
-              textColor: Colors.white,
-              shape: StadiumBorder(),
-              child: Text('Confirmar'),
-              onPressed: () {},
+            child: FadeIn(
+              child: MaterialButton(
+                minWidth: size.width - 220,
+                color: Colors.black,
+                textColor: Colors.white,
+                shape: StadiumBorder(),
+                child: Text('Confirmar'),
+                onPressed: () {},
+              ),
             ),
           ),
         ),
