@@ -16,6 +16,7 @@ dependencies:
 
   # Dependencias
   dio: ^3.0.10
+  polyline: ^1.0.2
   animate_do: ^1.7.5
   geolocator: ^6.2.1
   flutter_bloc: ^6.1.3

@@ -20,3 +20,11 @@ class OnMapMove extends MapEvent {
 class OnDrawPath extends MapEvent {}
 
 class OnFollowLocation extends MapEvent {}
+
+class OnCreateRoute extends MapEvent {
+  final double duration;
+  final double distance;
+  final List<LatLng> route;
+
+  OnCreateRoute(this.duration, this.distance, this.route);
+}
