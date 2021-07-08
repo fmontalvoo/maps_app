@@ -1,9 +1,13 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart' show LatLng;
 
 import 'package:maps_app/src/models/route_response.dart';
 import 'package:maps_app/src/models/places_response.dart';
+
+import 'package:maps_app/src/helpers/helpers.dart';
 
 import 'package:maps_app/src/environment/environment_dev.dart';
 
@@ -13,14 +17,21 @@ class TrafficService {
   final _directions = '$_url/directions/v5';
   final _geocoding = '$_url/geocoding/v5';
 
-  static final _instace = TrafficService._();
   final _dio = new Dio();
+  static final _instace = TrafficService._();
+
+  final debouncer = Debouncer<String>(duration: Duration(milliseconds: 1000));
+
+  final StreamController<PlacesResponse> _suggestionsController =
+      new StreamController.broadcast();
 
   TrafficService._();
 
   factory TrafficService() {
     return _instace;
   }
+
+  Stream<PlacesResponse> get suggestions => _suggestionsController.stream;
 
   Future<RouteResponse> getCoordsRoute(LatLng start, LatLng end) async {
     final cords =
@@ -57,5 +68,19 @@ class TrafficService {
       print('Error: $e');
       return PlacesResponse(features: []);
     }
+  }
+
+  void getSuggestions(String query, LatLng proximity) {
+    debouncer.value = '';
+    debouncer.onValue = (value) async {
+      final resultados = await getPlaces(value, proximity);
+      this._suggestionsController.add(resultados);
+    };
+
+    final timer = Timer.periodic(Duration(milliseconds: 200), (_) {
+      debouncer.value = query;
+    });
+
+    Future.delayed(Duration(milliseconds: 201)).then((_) => timer.cancel());
   }
 }

@@ -63,8 +63,11 @@ class SearchLocation extends SearchDelegate<ResultSearch> {
 
   Widget buildResultsSuggestions() {
     if (query.isEmpty) return Container();
-    return FutureBuilder<PlacesResponse>(
-      future: _trafficService.getPlaces(query, proximity),
+
+    _trafficService.getSuggestions(query, proximity);
+
+    return StreamBuilder<PlacesResponse>(
+      stream: _trafficService.suggestions,
       builder: (context, snapshot) {
         if (!snapshot.hasData)
           return Center(
