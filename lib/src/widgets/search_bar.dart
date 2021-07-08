@@ -39,8 +39,15 @@ class SearchBar extends StatelessWidget {
             ),
           ),
           onTap: () async {
-            returnResult(context,
-                await showSearch(context: context, delegate: SearchLocation()));
+            returnResult(
+              context,
+              await showSearch(
+                context: context,
+                delegate: SearchLocation(
+                  proximity: context.read<UbcationBloc>().state.latLng,
+                ),
+              ),
+            );
           },
         ),
       ),
