@@ -58,5 +58,35 @@ class SearchBar extends StatelessWidget {
     if (result.canceled) return;
 
     if (result.manual) context.read<SearchBloc>().add(OnActivateMarker());
+
+    calculateRoute(context, result);
+  }
+
+  void calculateRoute(BuildContext context, ResultSearch result) async {
+    displayMessage(context);
+    final mapBloc = context.read<MapBloc>();
+
+    final trafficService = new TrafficService();
+    final start = context.read<UbcationBloc>().state.latLng;
+    final end = result.latLng;
+    final route = await trafficService.getCoordsRoute(start, end);
+
+    final geometry = route.routes.first.geometry;
+    final duration = route.routes.first.duration;
+    final distance = route.routes.first.distance;
+
+    final points = line.Polyline.Decode(
+      encodedString: geometry,
+      precision: 6,
+    ).decodedCoords;
+
+    final coords = points
+        .map(
+          (point) => LatLng(point[0], point[1]),
+        )
+        .toList();
+
+    mapBloc.add(OnCreateRoute(duration, distance, coords));
+    Navigator.pop(context);
   }
 }

@@ -86,6 +86,7 @@ class _MarkerIndicator extends StatelessWidget {
           (point) => LatLng(point[0], point[1]),
         )
         .toList();
+
     mapBloc.add(OnCreateRoute(duration, distance, coords));
     Navigator.pop(context);
     searchBloc.add(OnDeactivateMarker());

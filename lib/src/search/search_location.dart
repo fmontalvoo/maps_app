@@ -91,7 +91,19 @@ class SearchLocation extends SearchDelegate<ResultSearch> {
               title: Text(places[index].textEs),
               subtitle: Text(places[index].placeNameEs),
               onTap: () {
-                print(places[index].type);
+                this.close(
+                  context,
+                  ResultSearch(
+                    manual: false,
+                    canceled: false,
+                    destinyName: places[index].textEs,
+                    description: places[index].placeNameEs,
+                    latLng: LatLng(
+                      places[index].center[1],
+                      places[index].center[0],
+                    ),
+                  ),
+                );
               },
             );
           },
