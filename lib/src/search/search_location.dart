@@ -15,7 +15,9 @@ class SearchLocation extends SearchDelegate<ResultSearch> {
 
   final LatLng proximity;
 
-  SearchLocation({this.proximity})
+  final List<ResultSearch> history;
+
+  SearchLocation({this.proximity, this.history})
       : this.searchFieldLabel = 'Buscar',
         this._trafficService = new TrafficService();
 
@@ -54,7 +56,27 @@ class SearchLocation extends SearchDelegate<ResultSearch> {
             onTap: () {
               this.close(context, ResultSearch(canceled: false, manual: true));
             },
-          )
+          ),
+          ...history
+              .map(
+                (result) => ListTile(
+                  leading: Icon(Icons.history),
+                  title: Text(result.destinyName),
+                  subtitle: Text(result.description),
+                  onTap: () {
+                    this.close(
+                      context,
+                      ResultSearch(
+                          manual: false,
+                          canceled: false,
+                          destinyName: result.destinyName,
+                          description: result.description,
+                          latLng: result.latLng),
+                    );
+                  },
+                ),
+              )
+              .toList()
         ],
       );
 

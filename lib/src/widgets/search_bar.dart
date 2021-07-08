@@ -44,6 +44,7 @@ class SearchBar extends StatelessWidget {
               await showSearch(
                 context: context,
                 delegate: SearchLocation(
+                  history: context.read<SearchBloc>().state.history,
                   proximity: context.read<UbcationBloc>().state.latLng,
                 ),
               ),
@@ -88,5 +89,6 @@ class SearchBar extends StatelessWidget {
 
     mapBloc.add(OnCreateRoute(duration, distance, coords));
     Navigator.pop(context);
+    context.read<SearchBloc>().add(OnSaveHistory(result));
   }
 }
