@@ -90,8 +90,24 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     final polylines = state.polylines;
     polylines['drive_route'] = this._driveRoute;
 
+    final startMarker = new Marker(
+      markerId: MarkerId('start'),
+      position: event.route.first,
+    );
+
+    final endMarker = new Marker(
+      markerId: MarkerId('end'),
+      position: event.route.last,
+    );
+
+    final markers = {...state.markers};
+
+    markers['start'] = startMarker;
+    markers['end'] = endMarker;
+
     yield state.copyWith(
       polylines: polylines,
+      markers: markers,
     );
   }
 }
