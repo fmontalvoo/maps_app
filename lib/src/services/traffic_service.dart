@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart' show LatLng;
+import 'package:maps_app/src/models/coords_info_response.dart';
 
 import 'package:maps_app/src/models/route_response.dart';
 import 'package:maps_app/src/models/places_response.dart';
@@ -62,7 +63,6 @@ class TrafficService {
       });
 
       final data = placesResponseFromJson(response.data);
-      print(data);
       return data;
     } catch (e) {
       print('Error: $e');
@@ -82,5 +82,23 @@ class TrafficService {
     });
 
     Future.delayed(Duration(milliseconds: 201)).then((_) => timer.cancel());
+  }
+
+  Future<CoordsInfoResponse> getCoordsInfo(LatLng coords) async {
+    try {
+      final url =
+          '$_geocoding/mapbox.places/${coords.longitude},${coords.latitude}.json';
+      final response = await _dio.get(url, queryParameters: {
+        'language': 'es',
+        'access_token': environment['mapbox_token'],
+      });
+
+      final data = coordsInfoResponseFromJson(response.data);
+
+      return data;
+    } catch (e) {
+      print('Error: $e');
+      return CoordsInfoResponse(features: []);
+    }
   }
 }

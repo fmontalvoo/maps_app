@@ -93,11 +93,19 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     final startMarker = new Marker(
       markerId: MarkerId('start'),
       position: event.route.first,
+      infoWindow: InfoWindow(
+        title: 'Inicio',
+        snippet: 'Punto inicial de la ruta.',
+      ),
     );
 
     final endMarker = new Marker(
       markerId: MarkerId('end'),
       position: event.route.last,
+      infoWindow: InfoWindow(
+        title: 'Destino',
+        snippet: 'Punto final de la ruta.',
+      ),
     );
 
     final markers = {...state.markers};

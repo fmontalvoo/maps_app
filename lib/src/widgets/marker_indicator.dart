@@ -72,6 +72,8 @@ class _MarkerIndicator extends StatelessWidget {
     final end = mapBloc.state.mapCenter;
     final route = await trafficService.getCoordsRoute(start, end);
 
+    await trafficService.getCoordsInfo(end);
+
     final geometry = route.routes.first.geometry;
     final duration = route.routes.first.duration;
     final distance = route.routes.first.distance;
