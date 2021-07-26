@@ -25,6 +25,7 @@ class OnCreateRoute extends MapEvent {
   final double duration;
   final double distance;
   final List<LatLng> route;
+  final String destinyName;
 
-  OnCreateRoute(this.duration, this.distance, this.route);
+  OnCreateRoute(this.duration, this.distance, this.route, this.destinyName);
 }

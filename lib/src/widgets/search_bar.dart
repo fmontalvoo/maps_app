@@ -58,9 +58,10 @@ class SearchBar extends StatelessWidget {
   void returnResult(BuildContext context, ResultSearch result) {
     if (result.canceled) return;
 
-    if (result.manual) context.read<SearchBloc>().add(OnActivateMarker());
-
-    calculateRoute(context, result);
+    if (result.manual)
+      context.read<SearchBloc>().add(OnActivateMarker());
+    else
+      calculateRoute(context, result);
   }
 
   void calculateRoute(BuildContext context, ResultSearch result) async {
@@ -75,6 +76,7 @@ class SearchBar extends StatelessWidget {
     final geometry = route.routes.first.geometry;
     final duration = route.routes.first.duration;
     final distance = route.routes.first.distance;
+    final destinyName = result.destinyName;
 
     final points = line.Polyline.Decode(
       encodedString: geometry,
@@ -87,7 +89,7 @@ class SearchBar extends StatelessWidget {
         )
         .toList();
 
-    mapBloc.add(OnCreateRoute(duration, distance, coords));
+    mapBloc.add(OnCreateRoute(duration, distance, coords, destinyName));
     Navigator.pop(context);
     context.read<SearchBloc>().add(OnSaveHistory(result));
   }

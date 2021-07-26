@@ -95,7 +95,8 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       position: event.route.first,
       infoWindow: InfoWindow(
         title: 'Inicio',
-        snippet: 'Punto inicial de la ruta.',
+        snippet:
+            'Duracion recorrido: ${(event.duration / 60).floor()} minutos.',
       ),
     );
 
@@ -104,7 +105,8 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       position: event.route.last,
       infoWindow: InfoWindow(
         title: 'Destino',
-        snippet: 'Punto final de la ruta.',
+        snippet:
+            '${event.destinyName} a ${(event.distance / 1000).toStringAsFixed(2)} Km',
       ),
     );
 

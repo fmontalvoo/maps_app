@@ -72,11 +72,12 @@ class _MarkerIndicator extends StatelessWidget {
     final end = mapBloc.state.mapCenter;
     final route = await trafficService.getCoordsRoute(start, end);
 
-    await trafficService.getCoordsInfo(end);
+    final info = await trafficService.getCoordsInfo(end);
 
     final geometry = route.routes.first.geometry;
     final duration = route.routes.first.duration;
     final distance = route.routes.first.distance;
+    final destinyName = info.features.first.textEs;
 
     final points = line.Polyline.Decode(
       encodedString: geometry,
@@ -89,7 +90,7 @@ class _MarkerIndicator extends StatelessWidget {
         )
         .toList();
 
-    mapBloc.add(OnCreateRoute(duration, distance, coords));
+    mapBloc.add(OnCreateRoute(duration, distance, coords, destinyName));
     Navigator.pop(context);
     searchBloc.add(OnDeactivateMarker());
   }
