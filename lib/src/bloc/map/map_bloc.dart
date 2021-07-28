@@ -9,6 +9,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'package:maps_app/src/themes/uber_map.dart';
 
+import 'package:maps_app/src/helpers/helpers.dart';
+
 part 'map_state.dart';
 part 'map_event.dart';
 
@@ -90,7 +92,10 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     final polylines = state.polylines;
     polylines['drive_route'] = this._driveRoute;
 
+    // final assetIcon = await getAssetImageMarker();
+
     final startMarker = new Marker(
+      // icon: assetIcon,
       markerId: MarkerId('start'),
       position: event.route.first,
       infoWindow: InfoWindow(
@@ -100,7 +105,10 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       ),
     );
 
+    // final networkIcon = await getNetworkImageMarker();
+
     final endMarker = new Marker(
+      // icon: networkIcon,
       markerId: MarkerId('end'),
       position: event.route.last,
       infoWindow: InfoWindow(
