@@ -1,8 +1,11 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:maps_app/src/custom_markers/custom_marker.dart';
 import 'package:polyline/polyline.dart' as line;
 
 import 'package:maps_app/src/models/result_search.dart';
@@ -21,3 +24,4 @@ part 'route_button.dart';
 part 'follow_button.dart';
 part 'ubication_button.dart';
 part 'marker_indicator.dart';
+part 'widget_to_image.dart';

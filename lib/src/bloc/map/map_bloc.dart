@@ -1,15 +1,14 @@
 import 'dart:convert';
 
+import 'package:maps_app/src/widgets/widgets.dart';
 import 'package:meta/meta.dart';
 
-import 'package:flutter/material.dart' show Colors;
+import 'package:flutter/material.dart' show Colors, Offset;
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'package:maps_app/src/themes/uber_map.dart';
-
-import 'package:maps_app/src/helpers/helpers.dart';
 
 part 'map_state.dart';
 part 'map_event.dart';
@@ -93,9 +92,12 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     polylines['drive_route'] = this._driveRoute;
 
     // final assetIcon = await getAssetImageMarker();
+    final markerStart = await getStartMarkerIcon(event.duration.toInt());
 
     final startMarker = new Marker(
       // icon: assetIcon,
+      icon: markerStart,
+      anchor: Offset(0.1, 0.95),
       markerId: MarkerId('start'),
       position: event.route.first,
       infoWindow: InfoWindow(
@@ -106,9 +108,13 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     );
 
     // final networkIcon = await getNetworkImageMarker();
+    final markerEnd =
+        await getDestinyMarkerIcon(event.destinyName, event.distance);
 
     final endMarker = new Marker(
       // icon: networkIcon,
+      icon: markerEnd,
+      anchor: Offset(0.1, 0.95),
       markerId: MarkerId('end'),
       position: event.route.last,
       infoWindow: InfoWindow(
